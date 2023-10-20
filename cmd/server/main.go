@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/srcct3/go-rest-comment-api/internal/db"
@@ -12,13 +11,12 @@ import (
 func Run() error {
 	db, err := db.NewDatabase()
 	if err != nil {
-		fmt.Println("failed to connect to the database")
+		fmt.Println("failed to connect to the database:", err)
 		return err
 	}
 
-	if err := db.Ping(context.Background()); err != nil {
-		fmt.Println("failed to ping database")
-		return err
+	if err := db.MigrateDB(); err != nil {
+		fmt.Println(err)
 	}
 
 	fmt.Println("Successfuly connected and ping the database")
